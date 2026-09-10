@@ -1,6 +1,6 @@
 from flask import Flask,request, jsonify,  session
 from  models import db, User, Workout, Session, Exercise
-
+from flask_migrate import Migrate
 app = Flask(__name__)
 
 # Configure the database connection
