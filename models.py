@@ -2,10 +2,22 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, create_engine,sessionmaker
 
-DATABASE_URI = 'sqlite:///instance/app.db'
 
-engine = create_engine(DATABASE_URI)
+convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+metadata = MetaData(naming_convention=convention)
+db = SQLAlchemy(metadata=metadata)
 
+user_workout = db.Table('user_workout',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('workout_id', db.Integer, db.ForeignKey('workouts.id'), primary_key=True)
+    db.Column('session_id', db.Integer, db.ForeignKey('sessions.id'), primary_key=True)
+)
 class BaseModel:
     """Base model class that other models will inherit from."""
     id = Column(Integer, primary_key=True)
