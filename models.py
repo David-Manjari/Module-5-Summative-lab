@@ -1,5 +1,7 @@
 # Import the libraries for this project 
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt()
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, MetaData
 
 
@@ -29,7 +31,6 @@ class BaseModel:
 
 
 
-# My models will be defined here
 class User(BaseModel, db.Model):
     __tablename__ = 'users'
     username = Column(String(80), unique=True, nullable=False)
@@ -40,8 +41,14 @@ class User(BaseModel, db.Model):
     workouts = db.relationship('Workout', back_populates='user')
     sessions = db.relationship('Session', back_populates='user')
     exercises = db.relationship('Exercise', back_populates='user')
-    def __repr__(self):
 
+    def set_password(self, plain_password):
+        self.password = bcrypt.generate_password_hash(plain_password).decode('utf-8')
+
+    def check_password(self, plain_password):
+        return bcrypt.check_password_hash(self.password, plain_password)
+
+    def __repr__(self):
         return f'<User {self.username}>'
 
 class Workout(BaseModel, db.Model):
