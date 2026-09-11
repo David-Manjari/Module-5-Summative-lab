@@ -2,7 +2,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, MetaData
 
-
+# created the Tabble convention for the database to avoid naming conflicts and ensure consistency in naming constraints, indexes, and other database objects.
 
 convention = {
     "ix": 'ix_%(column_0_label)s',
