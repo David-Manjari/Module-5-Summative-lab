@@ -49,5 +49,11 @@ with app.app_context():
                         user_id=2,
                         workout_id=2,
                         session_id=2)
+
+    # Seed the relationships between the models
+    workout1.exercises.append(exercise1)
+    workout2.exercises.append(exercise2)
+    session1.exercises.append(exercise1)
+    session2.exercises.append(exercise2)
     db.session.add_all([user1, user2, workout1, workout2, session1, session2, exercise1, exercise2])
     db.session.commit()
