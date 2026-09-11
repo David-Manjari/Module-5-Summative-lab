@@ -2,11 +2,14 @@ from flask import Flask, request, jsonify
 from models import db, User, Workout, Session, Exercise, bcrypt
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config["SECRET_KEY"] = "mysecretkey"
-app.config["JWT_SECRET_KEY"] = "change-this-before-submitting"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
 
 db.init_app(app)
 bcrypt.init_app(app)
