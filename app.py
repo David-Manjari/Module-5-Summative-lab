@@ -10,8 +10,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
-app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
+app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "dev-jwt-secret-key-change-in-production")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
 
 db.init_app(app)
 bcrypt.init_app(app)
